@@ -103,7 +103,7 @@ export class App extends React.Component<any> {
               <NavbarGroup align={Alignment.RIGHT}>
                 <NavbarHeading>EOSavatarimg dApp</NavbarHeading>
                 <NavbarDivider />
-                <Link to="/info" style={{display: 'none'}}>
+                <Link to="/info" style={{ display: 'none' }}>
                   <Button
                     className={Classes.MINIMAL}
                     icon="info-sign"
@@ -172,6 +172,9 @@ export class App extends React.Component<any> {
 
         <div className="App-partners row fill center-xs" style={{ margin: 30 }}>
           <div className="footercenter row col-lg-9 middle-xs">
+            <div className="col-xs-3 col-sm">
+              <img style={{ width: 90 }} src="logo.jpg" alt="" />
+            </div>
             <div className="col-xs-3 col-sm">
               <h2>Sponsors and partners</h2>
             </div>
