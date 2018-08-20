@@ -30,7 +30,7 @@ class DownloadPage extends React.Component<any>{
         minimal={true}
         intent={Intent.PRIMARY}
         onClick={() => {
-          fileStore.fetchData()
+          fileStore.fetchAvatar()
         }} />
     )
 
