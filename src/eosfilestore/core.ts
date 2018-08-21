@@ -5,6 +5,7 @@
 import * as Eos from 'eosjs'
 // import { splitString } from './utils'
 import { wif } from './costants'
+import BigNumber from "bignumber.js"
 
 /* tslint:disable */
 const ScatterJS = require('scatter-js/dist/scatter.cjs')
@@ -116,9 +117,23 @@ export function doRemoveAvatar(account: any): Promise<any> {
 // GET table
 export function fetchAvatar(account: string) {
   return new Promise((resolve, reject) => {
-    eos.getTableRows(true, 'eosavatarimg', 'eosavatarimg', 'profiles', null, account)
+    // eos.getTableRows(true, 'eosavatarimg', 'eosavatarimg', 'profiles', 'account', account, 0, 1)
+    const encAcc = new BigNumber(Eos.modules.format.encodeName(account, false))
+      eos.getTableRows({
+        code: 'eosavatarimg',
+        json: true,
+        limit: 1,
+        lower_bound: encAcc.toString(),
+        scope: 'eosavatarimg',
+        table: 'profiles',
+        upper_bound: encAcc.plus(1).toString()
+      })
       .then((data: any) => {
-        resolve(data.rows[0])
+        if (data.rows[0].avatar_data) {
+          resolve(data.rows[0])
+        } else {
+          reject('empty avatar')
+        }
       })
       .catch((err: any) => reject(err))
   })

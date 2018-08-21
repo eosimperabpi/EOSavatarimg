@@ -7,12 +7,21 @@ EOSavatarimg is an EOS smart contract and a Web UI to manage your avatar associa
 You can use the official EOSjs API and pass the `account` you what to see the avatar
 
 ```
-eos.getTableRows(true, 'eosavatarimg', 'eosavatarimg', 'profiles', null, account)
-  .then((data: any) => {
-    resolve(data.rows[0])
-    // { avatar_data: 'base64blob...', updated_at: 1234}
-  })
-  .catch((err: any) => reject(err))
+const encodedAccount = new BigNumber(Eos.modules.format.encodeName(accountToSearch, false))
+eos.getTableRows({
+  code: 'eosavatarimg',
+  json: true,
+  limit: 1,
+  lower_bound: encAcc.toString(),
+  scope: 'eosavatarimg',
+  table: 'profiles',
+  upper_bound: encAcc.plus(1).toString()
+})
+.then((data: any) => {
+  resolve(data.rows[0])
+  // { avatar_data: 'base64blob...', updated_at: 1234}
+})
+.catch((err: any) => reject(err))
 ```
 
 ### Features and TODO

@@ -33,10 +33,13 @@ class FileStore {
   }
 
   @action fetchAvatar() {
+    notificationStore.clear()
     fetchAvatar(this.newTxid).then((data: any) => {
       console.log('image blob', data)
       this.blob = data.avatar_data
       this.updatedAt = parseInt(data.updated_at, 10)
+    }).catch((e) => {
+      notificationStore.push({message: `Avatar not found for: ${this.newTxid}`})
     })
   }
 
